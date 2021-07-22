@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cineland - Film{% endblock %}
+
+{% block body %}
+    <div class="jumbotron jumbotron-fluid text-center bg-dark text-white">
+        <div class="container">
+            {{ form_start(formulaire) }}
+            <div class="form-row justify-content-md-center">
+                <div class="col-12">
+                    {{ form_row(formulaire.titre) }}
+                </div>
+                <div class="col-3">
+                    {{ form_row(formulaire.anneeMin) }}
+                </div>
+                <div class="col-3">
+                    {{ form_row(formulaire.anneeMax) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(formulaire.dateMax) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(formulaire.acteurUn) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(formulaire.acteurDeux) }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-light">Rechercher</button>
+                </div>
+            </div>
+            {{ form_end(formulaire) }}
+        </div>
+    </div>
+    <div class="container text-center mt-5">
+        <h1 class="display-4 mb-5">Les films</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            {% for film in films %}
+                <div class="col-md-4 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ path('detail_film', {id: film.id}) }}">
+                                <h5 class="card-title">{{ film.titre|capitalize }}</h5>
+                            </a>
+                            <a href="{{ path('modifier_film', {id: film.id}) }}" class="btn btn-info">⚙️</a>
+                            <a href="{{ path('supprimer_film', {id: film.id}) }}" class="btn btn-danger">❌</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Ajouter</h5>
+                        <a href="{{ path('ajouter_film') }}" class="btn btn-success">➕</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

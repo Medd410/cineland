@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cineland - {{ film.titre }}{% endblock %}
+
+{% block body %}
+    <div class="container text-center mt-5">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ film.titre }}</h3>
+                        <h6 class="card-subtitle mb-4 text-muted">Sorti le {{ film.dateSortie.format('d/m/Y') }}</h6>
+                        <div class="card-text mb-4">
+                            Durée : {{ film.duree }} min<br>
+                            Genre: {{ film.genre|capitalize }}<br>
+                            {% if film.note > 0 %}
+                                <a href="{{ path('reduire_note_film', {id: film.id}) }}"
+                                   class="btn btn-danger">-</a>
+                            {% endif %}
+                            Note: {{ film.note }}/20
+                            {% if film.note < 20 %}
+                                <a href="{{ path('augmenter_note_film', {id: film.id}) }}"
+                                   class="btn btn-success">+</a>
+                            {% endif %}
+                            <br>
+                            Age minimal: {{ film.ageMinimal }}
+                        </div>
+                        {% if film.acteur.count > 0 %}
+                            <div class="card-header">Acteur(s)</div>
+                            <ul class="list-group list-group-flush">
+                                {% for acteur in film.acteur %}
+                                    <a href="{{ path('detail_acteur', {id: acteur.id}) }}">
+                                        <li class="list-group-item">{{ acteur.nomPrenom }}</li>
+                                    </a>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

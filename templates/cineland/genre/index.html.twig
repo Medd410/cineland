@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cineland - Genres{% endblock %}
+
+{% block body %}
+<div class="jumbotron jumbotron-fluid text-center bg-dark text-white">
+    <div class="container">
+        {{ form_start(formulaire) }}
+        <div class="form-row justify-content-md-center">
+            <div class="col-12">
+                {{ form_row(formulaire.acteur) }}
+            </div>
+            <div class="col">
+                <button class="btn btn-light">Rechercher</button>
+            </div>
+        </div>
+        {{ form_end(formulaire) }}
+    </div>
+</div>
+<div class="container text-center mt-5">
+    <h1 class="display-4 mb-5">Les genres</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        {% for genre in genres %}
+        <div class="col-md-4 mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ genre.nom|capitalize }}</h5>
+                    {% set average = 0 %}
+                    {% for film in genre.films %}
+                        {% set average = average + film.duree %}
+                    {% endfor %}
+                    {% if genre.films.count > 0 %}
+                    {% set average = average / genre.films.count %}
+                    {% endif %}
+                    <h6 class="card-subtitle mb-4 text-muted">Durée moyenne : {{ average }} min</h6>
+                    {% if genre.films.count == 0 %}
+                        <a href="{{ path('supprimer_genre', {id: genre.id}) }}"
+                           class="btn btn-danger">❌</a>
+                    {% else %}
+                        <a href="{{ path('supprimer_genre', {id: genre.id}) }}"
+                           class="btn btn-danger disabled">❌</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Ajouter</h5>
+                    <a href="{{ path('ajouter_genre') }}" class="btn btn-success">➕</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

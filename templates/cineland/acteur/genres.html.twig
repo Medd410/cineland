@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cineland - Genres joués par Acteur{% endblock %}
+
+{% block body %}
+    <div class="container text-center mt-5">
+        <h1 class="display-4 mb-5">Les genres joués par chaque acteur</h1>
+        <div class="row">
+            {% for acteur in acteurs %}
+                <div class="col-md-4 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ path('detail_acteur', {id: acteur.id}) }}">
+                                <h5 class="card-title">{{ acteur.nomPrenom }}</h5>
+                            </a>
+                            {% for genre in acteur.genres %}
+                                <p>{{ genre }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cineland - {{ acteur.nomPrenom }}{% endblock %}
+
+{% block body %}
+    <div class="container text-center mt-5">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ acteur.nomPrenom }}</h3>
+                        <h6 class="card-subtitle mb-4 text-muted">Né(e)
+                            le {{ acteur.dateNaissance.format('d/m/Y') }}</h6>
+                        <div class="card-text mb-4">Nationalité : {{ acteur.nationalite|capitalize }}</div>
+                        {% if acteur.films.count > 0 %}
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Film ({{ acteur.films.count }})</th>
+                                    {% set total = 0 %}
+                                    {% for film in acteur.films %}
+                                        {% set total = total + film.duree %}
+                                    {% endfor %}
+                                    <th scope="col">Durée TTL ({{ total }} min)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for film in acteur.films %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('detail_film', {id: film.id}) }}">
+                                                {{ film.titre }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ film.duree }} min
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="container d-flex justify-content-center">
+                                {{ form_start(formulaire) }}
+                                <div class="form-row align-items-end">
+                                    <div class="col">
+                                        {{ form_row(formulaire.ageMin) }}
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <button class="btn btn-dark">Augmenter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_end(formulaire) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
